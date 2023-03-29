@@ -1,0 +1,36 @@
+:root {
+    --font-family:  'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+
+/* General Styles*/
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+}
+/*Header Styles*/
+
+Header {
+    padding: 20px auto;
+    background-image: linear-gradient(to right, rgb(30, 38, 156), rgb(121, 168, 180));
+
+}
+
+header h1 {
+    padding: 30px 20px 30px 20px;
+    font-size: 40px;
+    text-align: center;
+    font-family: var(--font-family);
+    color: white;
+}
+
+/*Search Box Styling*/
+
+#city {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: var(--font-family);
+}
