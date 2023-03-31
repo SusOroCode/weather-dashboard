@@ -18,34 +18,35 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <form class="p-3" id="weather-city-form">
+                <form class="p-3" id="weather-search-form">
                     <div class="mb-3">
-                        <label for="enter-city" class="form-label" id="city">Search for a City:</label>
-                        <input type="text" class="form-control" id="enter-city" required>
+                        <label for="enter-city" class="form-label" id="city">Search for a City:</label><!--ENTER CITY-->
+                        
+                        <input type="text" class="form-control" id="enter-city" required> <!--ID ENTER CITY TEXT-->
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="button">Submit</button> <!--SUBMIT BUTTON BTN ID BUTTON-->
+                   
                 </form>
-                <div class="past-search-cities" id="past-search-button"></div>
+                <div class="past-search-cities" id="past-search"></div><!--PAST SEARCH FOR LOCAL STORAGE DISPLAY-->
+                
+               <!-- <button class="btn-secondary"></button>--> <!--SHOWS PAST SEARCHES-->
             </div>
 
-            <div class="col-lg-9">
-                <div class="row mr-0">
-                    <div class="col-lg-12 card m-3" id="weather-today">
-                        <div class="card-body">
-                            <h5 class="city-name-class" id="city-name-id"></h5>
-                            <img id="weather-img">
-                            <p class="temperature"></p>
-                            <p class="wind"></p>
-                            <p id="humidity"></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-9 col-12">
+                <div class="row today-weather" id="today-weather"></div> <!--SHOWS WEATHER TODAY-->
 
+                <div class="forecast-five-day" id="forecast-five-day">
+                      <!-- <h4 class="city-name-class" id="city-name"></h4>--> 
+                        <!--<img id="weather-img">-->
+                       <!-- <p class="temperature"></p>-->
+                        <!--<p class="wind"></p>-->
+                        <!--<p id="humidity"></p>-->
+                </div>
             </div>
 
         </div>
 
-        <div id="cards" class="col-md-8 p-3"></div>
+    </div>
     </div>
     </div>
 
