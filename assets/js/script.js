@@ -34,15 +34,7 @@ function cityFormSubmit(event) {
         })
         .then(function (data) {
             console.log(data); // It works! :) YAY
-            
-            var cityLat = data.coord.lat;
-            var cityLon = data.coord.lon;
-            var forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=imperial&appid=${APIKey}`;
 
-            fetch(forecastURL)
-            .then(function(response) {
-                return response.json();
-            })
 
            // .then(function(response) {
              //   if (searchHistory.includes(data.name) === false) {
@@ -69,14 +61,42 @@ function cityFormSubmit(event) {
            var todayIconCodeEl = response.current.weather[0].icon;
            todayIconEl.attr('src', 'https://openweathermap.org/img/wn/${todayIconCodeEl}@2x.png');
 
-           var 
+           var todayTempEl = document.querySelector('#today-temp');
+           todayTempEl.textContent('Temperature:' + response.main.temp + '℉');
 
+           var todayHumEl = document.querySelector('#today-hum');
+           todayHumEl.textContent('Humidity:' + response.main.humidity + '%');
 
-
-
+           var todayWindEl = document.querySelector('#today-wind');
+           todayWindEl.textContent("Wind:" + response.main.wind.speed + 'MPH');
               
         });
 };
+
+function displayForecast() {
+
+    fetch(queryURL)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        var cityLat = data.coord.lat;
+        var cityLon = data.coord.lon;
+
+        var forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=imperial&appid=${APIKey}`;
+
+        fetch(forecastURL)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+
+            //TO DO: WRITE FORECAST ELEMENTS AND DATA
+            //WRITE SEARCH HISTORY AND DISPLAY
+        })
+    })
+}
 
 function renderResponse(userData) {
     document.querySelector
