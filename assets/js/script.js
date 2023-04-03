@@ -11,21 +11,44 @@ var enterCityEl = document.querySelector('#enter-city');
 var submitButtenEl = document.querySelector('#submit');
 var cityNameEl = document.querySelector('#city-name');
 var pastSearchEl = document.querySelector('#past-search');
+var todayWeatherContainerEl = document.querySelector('#today-weather');
+var todayCityWeatherEl = document.querySelector('#today-city');
 
 var fiveDayForecastEl = document.querySelector('#forecast-five-day');
 var city;
 var APIKey = '91d4837977f02f96f0a5781cb7dbd37d';
 var searchHistory = [];
+dayjs();
+
+
+// Submission of City for Weather Search
 
 function cityFormSubmit(event) {
     event.preventDefault();
 
-    var formInputValue = enterCityEl.value;
-    displayWeather(formInputValue);
+    var formInputValue = enterCityEl.value.trim();
+    if(formInputValue) {
+        getCity(formInputValue);
+        getForecast(formInputValue);
+        searchHistory.push(formInputValue);
+        localStorage.setItem('cityValue', JSON.stringify(searchHistory));
+        enterCityEl.value = '';
+    } else {
+        alert('Please enter a City to see the weather forecast.')
+    }
+   
+};
 
-}
+    var clickCitySearch = function(event) {
+        
+        var clickPreviousCity = event.currentTarget.textContent;
+        getCityWeather(clickPreviousCity);
+        getForecastWeather(clickPreviousCity);
+    };
 
-    function displayWeather(formInputValue) {
+    // Current Weather from API
+
+    function getCity(formInputValue) {
         var queryURL = `https://api.openweathermap.org/data/2.5/weather?appid=${APIKey}&q=${formInputValue}&units=imperial`;
     
     fetch(queryURL)
@@ -33,7 +56,42 @@ function cityFormSubmit(event) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data); // It works! :) YAY
+            displayWeather(data, city); // It works! :) YAY
+        });
+    };
+     
+    var displayWeather = function(formInputValue, searchCityWeather) {
+        todayWeatherContainerEl.textContent = '';
+        todayCityWeatherEl.textContent = searchCityWeather;
+
+        var displayDate = document.querySelector('#today-date');
+        var todayDate = dayjs();
+        displayDate.textContent = todayDate.format('MM/DD/YYYY');
+
+        var displayWeatherIcon = document.querySelector('#today-weather-icon');
+        var todayIcon = "https://openweathermap.org/img/wn/" + formInputValue.weather[0].icon + "@2x.png";
+        displayWeatherIcon.setAttribute ('src', todayIcon);
+
+        var displayTemperature = document.querySelector('#today-Temp');
+        var todayTemp = math.round(formInputValue.main.temp) + '℉';
+        displayTemperature.textContent = todayTemp;
+
+        var displayWind = document.querySelector('#today-wind');
+        var todayWind = formInputValue.main.wind.speed + 'MPH';
+        displayWind.textContent = todayWind;
+
+        var displayHumidity = document.querySelector('#today-hum');
+        var todayHum = formInputValue.main.humidity + '%';
+        displayHumidity.textContent = todayHum;
+
+        var enterCityEl = document.createElement('li');
+        enterCityEl.classname = 'past-search-cities';
+        enterCityEl.textContent = searchCity;
+        enterCityEl.addEventListener('click', cityFormSubmit);
+        pastSearchEl.appendChild(enterCityEl);
+           
+
+    };
 
 
            // .then(function(response) {
@@ -47,60 +105,41 @@ function cityFormSubmit(event) {
 
            // })
 
-           var todayWeatherEl = document.querySelector('#today-weather');
-           todayWeatherEl.addClass('today-weather');
+          
 
-           var todayDayEl = djs().format('MM/DD/YYYY');
+function getForecast(formInputValue) {
 
-           var todayCityEl = document.querySelector('#today-city');
-           todayCityEl.textContent(formInputValue, todayDayEl);
+   // var queryURL = `https://api.openweathermap.org/data/2.5/weather?appid=${APIKey}&q=${formInputValue}&units=imperial`;
 
-           var todayIconEl = document.querySelector('#today-weather-icon');
-           todayIconEl.addClass('today-weather-icon');
-           
-           var todayIconCodeEl = response.current.weather[0].icon;
-           todayIconEl.attr('src', 'https://openweathermap.org/img/wn/${todayIconCodeEl}@2x.png');
+    //fetch(queryURL)
+   // .then(function(response) {
+   //     return response.json();
+   // })
+  //  .then(function(data) {
+   //     var cityLat = data.coord.lat;
+   //     var cityLon = data.coord.lon;
+  //  });
 
-           var todayTempEl = document.querySelector('#today-temp');
-           todayTempEl.textContent('Temperature:' + response.main.temp + '℉');
-
-           var todayHumEl = document.querySelector('#today-hum');
-           todayHumEl.textContent('Humidity:' + response.main.humidity + '%');
-
-           var todayWindEl = document.querySelector('#today-wind');
-           todayWindEl.textContent("Wind:" + response.main.wind.speed + 'MPH');
-              
-        });
-};
-
-function displayForecast() {
-
-    fetch(queryURL)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        var cityLat = data.coord.lat;
-        var cityLon = data.coord.lon;
-
-        var forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=imperial&appid=${APIKey}`;
-
-        fetch(forecastURL)
+      //  var forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=imperial&appid=${APIKey}`;
+      var forecastURL = `https://api.openweathermap.org/data/2.5/weather?appid=${APIKey}&q=${formInputValue}&units=imperial`;
+       
+      fetch(forecastURL)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            console.log(data);
+            displayForecast(data.list);
 
             //TO DO: WRITE FORECAST ELEMENTS AND DATA
             //WRITE SEARCH HISTORY AND DISPLAY
-        })
-    })
+        });
+    };
+
+
+function displayForecast(list) {
+    console.log(list);
 }
 
-function renderResponse(userData) {
-    document.querySelector
-}
 
 //Add event listener to form (type submit)
 
