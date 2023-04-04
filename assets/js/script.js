@@ -56,17 +56,18 @@ function cityFormSubmit(event) {
             return response.json();
         })
         .then(function (data) {
-            displayWeather(data, city); // It works! :) YAY
+            displayWeather(data, formInputValue); // It works! :) YAY
         });
     };
      
-    var displayWeather = function(formInputValue, searchCityWeather) {
+    var displayWeather = function(data, formInputValue) {
         todayWeatherContainerEl.textContent = '';
         todayCityWeatherEl.textContent = searchCityWeather;
 
         var displayDate = document.querySelector('#today-date');
         var todayDate = dayjs();
-        displayDate.textContent = todayDate.format('MM/DD/YYYY');
+        console.log(displayDate);
+        displayDate.textContent.data = todayDate.format('MM/DD/YYYY');
 
         var displayWeatherIcon = document.querySelector('#today-weather-icon');
         var todayIcon = "https://openweathermap.org/img/wn/" + formInputValue.weather[0].icon + "@2x.png";
